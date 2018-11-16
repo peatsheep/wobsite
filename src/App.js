@@ -1,27 +1,42 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import _ from 'lodash';
+import './index.css'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      apod: null
+    }
+  }
+
+  componentDidMount() {
+    this.getApod();      
+  }
+
+  getApod() {
+    const today = new Date();
+    const date = _.join([today.getFullYear(), today.getMonth(), today.getDate()], '-');
+
+    fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&hd=True&date=' + date)
+      .then(response => response.json())
+      .then(apod => this.setState({apod: apod}))
+      .catch(e => console.warn(e));
+  }
+
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+    const { apod } = this.state;
+    if(apod) {
+      console.log(apod);
+      if(apod.media_type === "image") {
+        return(
+          <div className="center">
+            <img src={apod.url}/>
+          </div>
+        )
+      }
+    }
+    return null
   }
 }
 
