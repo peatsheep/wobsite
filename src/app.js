@@ -13,25 +13,32 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      hidden: {
-        "Me": false,
-        "Apod": true,
+      hidden: {  
+        "apod": true,
       }
     }
+  }
+
+  handleNodeClick(element) {
+    this.setState(
+      {hidden: 
+        update(
+          this.state.hidden, 
+          {[element]: {$set: !this.state.hidden[element]}}
+        )
+      }
+    )
   }
 
   render() {
     return (
       <div>
         <div>
-          <div 
-            onClick={() => this.setState({hidden: update(this.state.hidden, {"Apod": {$set: !this.state.hidden.Apod}})})}
-            className="center"
-          >
+          <div className="center" onClick={() => this.handleNodeClick("apod")}>
             <Me />
           </div>
           <div className="center">
-            {!this.state.hidden.Apod && <Apod />}
+            {!this.state.hidden.apod && <Apod />}
           </div>
         </div>
       </div>
