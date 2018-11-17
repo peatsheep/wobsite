@@ -1,42 +1,41 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import update from 'immutability-helper'
+import Apod from './apod'
 import './index.css'
+
+const Me = () => (
+  <div className="node">
+    <h1>Will Neville</h1>
+  </div>
+)
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      apod: null
+      hidden: {
+        "Me": false,
+        "Apod": true,
+      }
     }
-  }
-
-  componentDidMount() {
-    this.getApod();      
-  }
-
-  getApod() {
-    const today = new Date();
-    const date = _.join([today.getFullYear(), today.getMonth(), today.getDate()], '-');
-
-    fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&hd=True&date=' + date)
-      .then(response => response.json())
-      .then(apod => this.setState({apod: apod}))
-      .catch(e => console.warn(e));
   }
 
   render() {
-    const { apod } = this.state;
-    if(apod) {
-      console.log(apod);
-      if(apod.media_type === "image") {
-        return(
-          <div className="center">
-            <img src={apod.url}/>
+    return (
+      <div>
+        <div>
+          <div 
+            onClick={() => this.setState({hidden: update(this.state.hidden, {"Apod": {$set: !this.state.hidden.Apod}})})}
+            className="center"
+          >
+            <Me />
           </div>
-        )
-      }
-    }
-    return null
+          <div className="center">
+            {!this.state.hidden.Apod && <Apod />}
+          </div>
+        </div>
+      </div>
+    )
   }
 }
 
