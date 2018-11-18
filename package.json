@@ -1,15 +1,19 @@
 {
   "name": "william-neville-website",
+  "homepage": "https://peatsheep.github.io/wobsite",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "gh-pages": "^2.0.1",
+    "immutability-helper": "2.8.1",
+    "lodash": "4.17.11",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
-    "react-scripts": "2.1.1",
-    "immutability-helper": "2.8.1",
-    "lodash": "4.17.11"
+    "react-scripts": "2.1.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
